@@ -8,7 +8,8 @@ Yeh ek simple aur mazedar 2-player car racing game hai jo Flutter mein banayi ga
   - **Player 1 (Red Car):** Screen ke left side par tap karne se car aage barhti hai.
   - **Player 2 (Blue Car):** Screen ke right side par tap karne se car aage barhti hai.
 - **Win Logic:** Jo player sab se pehle finish line cross karta hai wo jeet jata hai.
-- **Start/Restart:** Game shuru karne aur dobara khelne ka option maujood hai.
+- **Obstacles:** Raste mein anay walay blocks ko dodge karein. Blocks ka design ab realistic road barriers jaisa hai.
+  12 | - **Styling:** Cars ko ab realistic top-down racing car ki shape di gayi hai aur glowing effects add kiye gaye hain.
 
 ## Tech Stack
 - Flutter

@@ -289,8 +289,24 @@ class _GameScreenState extends State<GameScreen> {
                           height: constraints.maxHeight * 0.1,
                           child: Container(
                             decoration: BoxDecoration(
-                              color: obs.lane < 2 ? Colors.redAccent.withOpacity(0.8) : Colors.blueAccent.withOpacity(0.8),
+                              color: obs.lane < 2 ? Colors.redAccent.shade700 : Colors.blueAccent.shade700,
                               borderRadius: BorderRadius.circular(8),
+                              border: Border.all(color: Colors.white70, width: 2),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Colors.black45,
+                                  blurRadius: 5,
+                                  offset: Offset(0, 5),
+                                )
+                              ],
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Container(height: 4, color: Colors.white.withOpacity(0.5)),
+                                Container(height: 4, color: Colors.white.withOpacity(0.5)),
+                                Container(height: 4, color: Colors.white.withOpacity(0.5)),
+                              ],
                             ),
                           ),
                         );
@@ -398,49 +414,159 @@ class _GameScreenState extends State<GameScreen> {
   }
 
   Widget _buildLaneBackground() {
-    return Container(
-      color: Colors.transparent,
+    return Stack(
+      children: [
+        Container(
+          color: Colors.grey.shade900,
+        ),
+        // Dashed lines for lane
+        Align(
+          alignment: Alignment.center,
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: List.generate(
+                  15,
+                  (index) => Container(
+                    width: 4,
+                    height: 20,
+                    color: Colors.white24,
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 
   Widget _buildCar(Color color) {
-    return Container(
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
-          bottomLeft: Radius.circular(8),
-          bottomRight: Radius.circular(8),
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        // Tires
+        Positioned(
+          left: -4,
+          top: 15,
+          child: _buildTire(),
         ),
-        boxShadow: [
-          BoxShadow(
-            color: color.withOpacity(0.5),
-            blurRadius: 10,
-            spreadRadius: 2,
-          ),
-        ],
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Container(
-            height: 20,
-            width: 30,
-            decoration: BoxDecoration(
-              color: Colors.black45,
-              borderRadius: BorderRadius.circular(5),
+        Positioned(
+          right: -4,
+          top: 15,
+          child: _buildTire(),
+        ),
+        Positioned(
+          left: -4,
+          bottom: 15,
+          child: _buildTire(),
+        ),
+        Positioned(
+          right: -4,
+          bottom: 15,
+          child: _buildTire(),
+        ),
+        
+        // Car Body
+        Container(
+          decoration: BoxDecoration(
+            color: color.withOpacity(0.9),
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(25),
+              topRight: Radius.circular(25),
+              bottomLeft: Radius.circular(10),
+              bottomRight: Radius.circular(10),
             ),
+            boxShadow: [
+              BoxShadow(
+                color: color.withOpacity(0.5),
+                blurRadius: 10,
+                spreadRadius: 2,
+              ),
+            ],
+            border: Border.all(color: Colors.black12, width: 2),
           ),
-          Container(
-            height: 30,
-            width: 30,
-            decoration: BoxDecoration(
-              color: Colors.black26,
-              borderRadius: BorderRadius.circular(5),
-            ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              // Windshield
+              Container(
+                margin: const EdgeInsets.only(top: 8),
+                height: 15,
+                width: 30,
+                decoration: BoxDecoration(
+                  color: Colors.lightBlueAccent.shade100,
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(15),
+                    topRight: Radius.circular(15),
+                    bottomLeft: Radius.circular(5),
+                    bottomRight: Radius.circular(5),
+                  ),
+                  border: Border.all(color: Colors.black38, width: 1.5),
+                ),
+              ),
+              // Roof / Back Window
+              Container(
+                height: 20,
+                width: 25,
+                decoration: BoxDecoration(
+                  color: color.withOpacity(0.7),
+                  borderRadius: BorderRadius.circular(5),
+                  border: Border.all(color: Colors.black26, width: 1),
+                ),
+              ),
+              // Headlights
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    width: 8,
+                    height: 4,
+                    decoration: BoxDecoration(
+                      color: Colors.yellowAccent,
+                      borderRadius: BorderRadius.circular(2),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.yellow,
+                          blurRadius: 5,
+                          spreadRadius: 1,
+                        )
+                      ]
+                    ),
+                  ),
+                  Container(
+                    width: 8,
+                    height: 4,
+                    decoration: BoxDecoration(
+                      color: Colors.yellowAccent,
+                      borderRadius: BorderRadius.circular(2),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.yellow,
+                          blurRadius: 5,
+                          spreadRadius: 1,
+                        )
+                      ]
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
-        ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTire() {
+    return Container(
+      width: 6,
+      height: 18,
+      decoration: BoxDecoration(
+        color: Colors.black,
+        borderRadius: BorderRadius.circular(3),
+        border: Border.all(color: Colors.grey.shade800, width: 1),
       ),
     );
   }
